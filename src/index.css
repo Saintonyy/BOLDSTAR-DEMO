@@ -1,0 +1,309 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* BOLDSTAR BRAND SYSTEM v1.0 CORE PALETTE */
+  --color-graphite-black: #0A0A0A;
+  --color-off-white: #F3F1EC;
+  --color-steel-gray: #6B7684;
+  --color-concrete: #B8B6B0;
+  
+  /* ACCENT TOKENS */
+  --color-signal-yellow: #FFD400;
+  --color-warning-red: #C1121F;
+
+  /* SYNCED ALIASES FOR BACKWARD COMPATIBILITY */
+  --color-cloud-surface: #F3F1EC;
+  --color-alloy-gray: #6B7684;
+  --color-steel-mist: #D5D3CC;
+  --color-brand-yellow: #FFD400;
+  --color-signal-lime: #FFD400; /* Replaced lime with Signal Yellow from brand manual */
+}
+
+/* Base resets */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-off-white);
+  color: var(--color-graphite-black);
+  overflow-x: hidden;
+  letter-spacing: -0.01em;
+}
+
+/* ===================================================
+   GLASSMORPHISM + REFINED NEOMORPHISM (TACTILE GLASS)
+   =================================================== */
+
+/* Primary Frosted Glass Surface with soft neomorphic bevel */
+.glass-panel {
+  background: rgba(243, 241, 236, 0.75);
+  backdrop-filter: blur(24px) saturate(170%);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 12px 36px -4px rgba(107, 118, 132, 0.14),
+    0 4px 12px -2px rgba(10, 10, 10, 0.04),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Frosted Glass Card for Products & Content Blocks */
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 10px 30px -4px rgba(107, 118, 132, 0.12),
+    0 2px 6px 0 rgba(10, 10, 10, 0.03),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(255, 212, 0, 0.55);
+  box-shadow: 
+    0 16px 40px -4px rgba(107, 118, 132, 0.2),
+    0 0 0 1px rgba(255, 212, 0, 0.4),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+}
+
+/* Deep/Inset Glass Well for Inputs, Wells, Metrics, and Codes */
+.glass-inset {
+  background: rgba(184, 182, 176, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 
+    inset 2px 2px 6px rgba(10, 10, 10, 0.07),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.9);
+}
+
+/* Glass Interactive Buttons & Controls */
+.glass-interactive {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 4px 16px rgba(107, 118, 132, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-interactive:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 8px 24px rgba(107, 118, 132, 0.18),
+    inset 0 1px 1.5px rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+}
+
+.glass-interactive:active {
+  background: rgba(184, 182, 176, 0.25);
+  box-shadow: 
+    inset 2px 2px 5px rgba(10, 10, 10, 0.12),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.8);
+  transform: translateY(0);
+}
+
+/* Dark Obsidian Smoked Glass (for drawers, headers, tech bars, banners) */
+.glass-dark {
+  background: rgba(10, 10, 10, 0.78);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-dark-card {
+  background: rgba(15, 17, 21, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 12px 36px rgba(0, 0, 0, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+.glass-dark-inset {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    inset 3px 3px 8px rgba(0, 0, 0, 0.8),
+    inset -1px -1px 4px rgba(255, 255, 255, 0.04);
+}
+
+/* Backward compatibility mappings upgraded to glassmorphism */
+.neo-out {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 10px 28px -4px rgba(107, 118, 132, 0.12),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.95);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neo-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(22px) saturate(175%);
+  -webkit-backdrop-filter: blur(22px) saturate(175%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 12px 32px -4px rgba(107, 118, 132, 0.14),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 1);
+  border-radius: 14px;
+}
+
+.neo-out-inset {
+  background: rgba(243, 241, 236, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 8px rgba(107, 118, 132, 0.08);
+}
+
+.neo-in {
+  background: rgba(184, 182, 176, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 
+    inset 2px 2px 5px rgba(10, 10, 10, 0.06),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.9);
+}
+
+.neo-interactive:hover {
+  box-shadow: 
+    0 12px 30px rgba(107, 118, 132, 0.18),
+    inset 0 1px 2px rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+}
+
+.neo-interactive:active {
+  box-shadow: 
+    inset 2px 2px 5px rgba(10, 10, 10, 0.1),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.9);
+  transform: translateY(0);
+}
+
+/* =========================================
+   BLUEPRINT GRID & AMBIENT DEPTH LIGHTING
+   ========================================= */
+
+.blueprint-grid {
+  background-size: 24px 24px;
+  background-color: var(--color-off-white);
+  background-image: 
+    linear-gradient(to right, rgba(107, 118, 132, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(107, 118, 132, 0.08) 1px, transparent 1px);
+  position: relative;
+}
+
+/* Subtle ambient chromatic glows under the grid for glass refraction */
+.ambient-glow-amber {
+  position: absolute;
+  top: -100px;
+  right: -80px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 212, 0, 0.15) 0%, rgba(255, 212, 0, 0.03) 50%, transparent 70%);
+  pointer-events: none;
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.ambient-glow-slate {
+  position: absolute;
+  top: 30%;
+  left: -120px;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(107, 118, 132, 0.12) 0%, rgba(184, 182, 176, 0.05) 50%, transparent 70%);
+  pointer-events: none;
+  filter: blur(70px);
+  z-index: 0;
+}
+
+.ambient-glow-red {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(193, 18, 31, 0.08) 0%, transparent 65%);
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.scanline-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline-container::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%), linear-gradient(90deg, rgba(255, 212, 0, 0.02), rgba(0, 0, 0, 0.01), rgba(193, 18, 31, 0.02));
+  z-index: 10;
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(243, 241, 236, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-steel-gray);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-graphite-black);
+}
+
+/* Marquee Running Banner */
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+}
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-around;
+  min-width: 100%;
+  animation: scroll-marq 40s linear infinite;
+}
+@keyframes scroll-marq {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}

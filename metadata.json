@@ -1,0 +1,6 @@
+{
+  "name": "Boldstar Archive",
+  "description": "Plataforma minimalista de archivo y venta de moda inspirada en Off-White y Yeezy con el sistema de diseño Bold Star.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
