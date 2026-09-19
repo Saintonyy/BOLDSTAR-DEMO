@@ -12,7 +12,8 @@ import ProductDetailDrawer from './components/ProductDetailDrawer';
 import CartDrawer from './components/CartDrawer';
 import SystemSpecs from './components/SystemSpecs';
 import CustomSubmit from './components/CustomSubmit';
-import { Filter, Grid, List, Search, Compass, Layers } from 'lucide-react';
+import MobileNavbar from './components/MobileNavbar';
+import { Filter, Grid, List, Search, Compass, Layers, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function App() {
   // --- 1. CORE SYSTEM STATE INITIALIZERS ---
@@ -26,6 +27,8 @@ export default function App() {
       viewMode: 'grid'
     };
   });
+
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
     const cached = localStorage.getItem('boldstar_cart');
@@ -132,24 +135,24 @@ export default function App() {
       />
 
       {/* MAIN CONTAINER */}
-      <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 relative z-10">
+      <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-8 pb-32 md:pb-8 relative z-10">
 
         {/* ================= SECTION A: COLLECTIONS ARCHIVE SHOWCASE ================= */}
         {systemState.activeTab === 'collections' && (
-          <div className="flex flex-col gap-8 text-left">
+          <div className="flex flex-col gap-6 sm:gap-8 text-left">
             
             {/* Title Glass HUD Banner */}
-            <div className="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden flex flex-col md:flex-row md:items-end justify-between gap-6 mb-2">
+            <div className="glass-panel p-5 sm:p-8 rounded-2xl relative overflow-hidden flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6 mb-1 sm:mb-2">
               <div>
-                <div className="flex items-center gap-2 text-warning-red text-xs font-mono tracking-widest font-bold mb-2.5 uppercase">
+                <div className="flex items-center gap-2 text-warning-red text-xs font-mono tracking-widest font-bold mb-2 uppercase">
                   <span>● INDEX_MODE // {filteredProducts.length}_OBJECTS_CATALOGED</span>
                   <span className="text-steel-gray">|</span>
                   <span className="text-graphite-black font-semibold">SZN_01 // ACTIVE</span>
                 </div>
-                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-graphite-black uppercase">
+                <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-graphite-black uppercase">
                   ACTIVE COLLECTIONS
                 </h1>
-                <p className="text-xs sm:text-sm font-mono text-steel-gray max-w-xl leading-relaxed uppercase mt-2">
+                <p className="text-xs sm:text-sm font-mono text-steel-gray max-w-xl leading-relaxed uppercase mt-1.5 sm:mt-2">
                   Explore the deconstructed design catalog. Heavy fabric bases, raw sewing trails, coordinates, and geometric alignment tags.
                 </p>
               </div>
@@ -158,7 +161,8 @@ export default function App() {
               <div className="flex gap-2 p-1.5 glass-inset rounded-xl self-start md:self-auto select-none">
                 <button
                   onClick={() => setSystemState(prev => ({ ...prev, viewMode: 'grid' }))}
-                  className={`px-3.5 py-2 rounded-lg font-mono text-xs font-bold flex items-center gap-2 cursor-pointer transition-all ${
+                  aria-label="Vista en cuadrícula"
+                  className={`min-h-[44px] px-4 py-2 rounded-lg font-mono text-xs font-bold flex items-center gap-2 cursor-pointer transition-all active:scale-95 ${
                     systemState.viewMode === 'grid' 
                       ? 'bg-graphite-black text-off-white shadow-md' 
                       : 'text-steel-gray hover:text-graphite-black'
@@ -169,7 +173,8 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => setSystemState(prev => ({ ...prev, viewMode: 'index' }))}
-                  className={`px-3.5 py-2 rounded-lg font-mono text-xs font-bold flex items-center gap-2 cursor-pointer transition-all ${
+                  aria-label="Vista en lista o índice"
+                  className={`min-h-[44px] px-4 py-2 rounded-lg font-mono text-xs font-bold flex items-center gap-2 cursor-pointer transition-all active:scale-95 ${
                     systemState.viewMode === 'index' 
                       ? 'bg-graphite-black text-off-white shadow-md' 
                       : 'text-steel-gray hover:text-graphite-black'
@@ -181,12 +186,60 @@ export default function App() {
               </div>
             </div>
 
+            {/* MOBILE QUICK CATEGORY HORIZONTAL FILTER BAR */}
+            <div className="md:hidden flex flex-col gap-3">
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none select-none">
+                {[
+                  { val: 'all', label: 'ALL UNITS' },
+                  { val: 'hoodie', label: 'HOODIES' },
+                  { val: 'tshirt', label: 'T-SHIRTS' },
+                  { val: 'footwear', label: 'BOOTS' },
+                  { val: 'outerwear', label: 'OUTERWEAR' },
+                  { val: 'utility', label: 'MODULAR' }
+                ].map(cat => (
+                  <button
+                    key={cat.val}
+                    onClick={() => setSystemState(prev => ({ ...prev, categoryFilter: cat.val }))}
+                    className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all cursor-pointer select-none active:scale-95 flex items-center justify-center ${
+                      systemState.categoryFilter === cat.val
+                        ? 'bg-graphite-black text-off-white shadow-md border border-graphite-black'
+                        : 'glass-interactive text-steel-gray hover:text-graphite-black'
+                    }`}
+                  >
+                    [{cat.label}]
+                  </button>
+                ))}
+              </div>
+
+              {/* Mobile search & filter drawer toggle button */}
+              <button
+                onClick={() => setIsMobileFilterOpen(prev => !prev)}
+                className="w-full min-h-[46px] glass-interactive rounded-xl px-4 py-2.5 font-mono text-xs font-bold flex items-center justify-between text-graphite-black active:scale-98 cursor-pointer select-none"
+              >
+                <span className="flex items-center gap-2">
+                  <Filter className="w-4 h-4 text-warning-red" />
+                  <span>FILTERS & PRICE {systemState.searchQuery || systemState.priceRange < 600 ? '(ACTIVE)' : ''}</span>
+                </span>
+                <span className="text-steel-gray flex items-center gap-1 text-[11px]">
+                  {isMobileFilterOpen ? (
+                    <>
+                      HIDE <ChevronUp className="w-4 h-4" />
+                    </>
+                  ) : (
+                    <>
+                      EXPAND <ChevronDown className="w-4 h-4" />
+                    </>
+                  )}
+                </span>
+              </button>
+            </div>
+
             {/* INTEGRATED FILTRATION DRILLDOWN CONTROLS */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start">
               
-              {/* FILTER PANEL PILLBOX (3 columns) */}
-              <div className="md:col-span-3 flex flex-col gap-5">
-                <div className="glass-panel p-5 sm:p-6 rounded-2xl flex flex-col gap-5 text-left">
+              {/* FILTER PANEL PILLBOX (3 columns on desktop, accordion on mobile) */}
+              <div className={`md:col-span-3 ${isMobileFilterOpen ? 'flex' : 'hidden md:flex'} flex-col gap-5`}>
+                <div className="glass-panel p-5 sm:p-6 rounded-2xl flex flex-col gap-5 text-left w-full">
                   <div className="border-b border-concrete/40 pb-3 flex items-center justify-between text-left select-none">
                     <span className="text-xs font-mono font-bold text-graphite-black uppercase flex items-center gap-2 tracking-wider">
                       <Filter className="w-4 h-4 text-warning-red" />
@@ -198,7 +251,7 @@ export default function App() {
                   {/* Search bar */}
                   <div className="flex flex-col gap-2">
                     <span className="text-xs font-mono text-steel-gray uppercase font-semibold">TEXT_QUERY</span>
-                    <div className="glass-inset px-3.5 py-2.5 rounded-xl flex items-center gap-2.5">
+                    <div className="glass-inset px-3.5 py-2.5 rounded-xl flex items-center gap-2.5 min-h-[46px]">
                       <Search className="w-4 h-4 text-steel-gray shrink-0" />
                       <input
                         type="text"
@@ -225,7 +278,7 @@ export default function App() {
                         <button
                           key={cat.val}
                           onClick={() => setSystemState(prev => ({ ...prev, categoryFilter: cat.val }))}
-                          className={`text-left px-3.5 py-2.5 rounded-xl transition-all cursor-pointer ${
+                          className={`min-h-[44px] text-left px-3.5 py-2.5 rounded-xl transition-all cursor-pointer flex items-center active:scale-98 ${
                             systemState.categoryFilter === cat.val
                               ? 'bg-graphite-black text-off-white font-bold shadow-md'
                               : 'hover:bg-concrete/20 text-steel-gray hover:text-graphite-black font-medium'
@@ -250,7 +303,7 @@ export default function App() {
                       step={20}
                       value={systemState.priceRange}
                       onChange={e => setSystemState(prev => ({ ...prev, priceRange: Number(e.target.value) }))}
-                      className="w-full accent-graphite-black cursor-pointer h-2 bg-concrete/40 rounded-lg"
+                      className="w-full accent-graphite-black cursor-pointer h-3 bg-concrete/40 rounded-lg"
                     />
                     <div className="flex justify-between text-[11px] font-mono text-steel-gray font-medium">
                       <span>$100</span>
@@ -321,7 +374,7 @@ export default function App() {
                             <td className="py-4 px-4 text-center">
                               <button
                                 onClick={() => setSelectedProduct(prod)}
-                                className="glass-interactive px-3.5 py-1.5 rounded-lg text-xs font-bold hover:bg-graphite-black hover:text-off-white transition-all cursor-pointer uppercase"
+                                className="glass-interactive min-h-[44px] px-4 py-2 rounded-lg text-xs font-bold hover:bg-graphite-black hover:text-off-white active:scale-95 transition-all cursor-pointer uppercase flex items-center justify-center mx-auto select-none"
                               >
                                 INSPECT
                               </button>
@@ -409,7 +462,7 @@ export default function App() {
       </main>
 
       {/* FOOTER CO-DESIGN ARTIFACTS */}
-      <footer className="w-full border-t border-concrete/40 mt-16 px-4 sm:px-6 md:px-8 py-8 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-steel-gray uppercase select-none relative z-10 glass-panel">
+      <footer className="w-full border-t border-concrete/40 mt-16 px-4 sm:px-6 md:px-8 py-8 pb-28 md:pb-8 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-steel-gray uppercase select-none relative z-10 glass-panel">
         <div className="flex flex-wrap gap-4 sm:gap-8 items-center mb-4 md:mb-0 justify-center">
           <span className="font-black text-graphite-black tracking-widest font-display text-xs">
             © BOLDSTAR® {new Date().getFullYear()}
@@ -424,6 +477,15 @@ export default function App() {
           <span className="text-graphite-black font-semibold">[ AGENCY: MEXICO CITY // SYSTEM ENGINE ]</span>
         </div>
       </footer>
+
+      {/* MOBILE BOTTOM NAVIGATION DOCK (VISIBLE ON MOBILE ONLY) */}
+      <MobileNavbar
+        activeTab={systemState.activeTab}
+        onTabChange={(tab) => setSystemState(prev => ({ ...prev, activeTab: tab }))}
+        cartCount={cartItemsCount}
+        onOpenCart={() => setSystemState(prev => ({ ...prev, isCartOpen: true }))}
+        isCartOpen={systemState.isCartOpen}
+      />
 
       {/* --- 3. MODAL OVERLAY PORTALS --- */}
 

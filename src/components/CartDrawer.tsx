@@ -91,8 +91,8 @@ export default function CartDrawer({
       <div className="w-full max-w-xl h-screen glass-panel pl-0 border-y-0 rounded-none overflow-y-auto flex flex-col relative shadow-2xl">
         
         {/* CLOSING / TELEMETRY HEADER */}
-        <div className="w-full glass-dark h-16 flex items-center justify-between px-6 sm:px-8 sticky top-0 z-20 select-none border-b border-white/10">
-          <div className="flex items-center gap-3">
+        <div className="w-full glass-dark min-h-16 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-20 select-none border-b border-white/10">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <span className="text-xs font-mono font-bold px-3 py-1.5 glass-dark-inset rounded text-off-white border border-white/10">
               LEDGER_BAG // ARCHIVE
             </span>
@@ -102,15 +102,16 @@ export default function CartDrawer({
 
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full glass-interactive text-off-white flex items-center justify-center cursor-pointer transition-all hover:text-warning-red hover:bg-white/10"
+            aria-label="Cerrar carrito de compras"
+            className="min-w-[44px] min-h-[44px] rounded-full glass-interactive text-off-white flex items-center justify-center cursor-pointer transition-all hover:text-warning-red hover:bg-white/10 active:scale-95"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* CART TIER 1: ACTIVE FILES LIST */}
         {checkoutStep === 'cart' && (
-          <div className="p-6 sm:p-8 flex-grow flex flex-col gap-6 text-left">
+          <div className="p-4 sm:p-8 pb-12 sm:pb-8 flex-grow flex flex-col gap-6 text-left">
             {cart.length === 0 ? (
               <div className="flex-grow flex flex-col items-center justify-center gap-4 text-center select-none py-16">
                 <div className="w-16 h-16 rounded-full glass-inset flex items-center justify-center text-steel-gray text-xl">
@@ -126,7 +127,7 @@ export default function CartDrawer({
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col gap-3.5 overflow-y-auto max-h-[48vh] pr-2">
+              <div className="flex flex-col gap-3.5 overflow-y-auto max-h-[48vh] pr-1 sm:pr-2">
                 <span className="text-xs font-mono text-steel-gray block uppercase tracking-wider font-bold">
                   STITCH_ALLOCATION_BLOCKS [{cart.length}]
                 </span>
@@ -134,10 +135,10 @@ export default function CartDrawer({
                 {cart.map((item) => (
                   <div
                     key={`${item.product.itemCode}-${item.selectedSize}`}
-                    className="glass-card p-4 rounded-xl flex items-center justify-between gap-4 relative"
+                    className="glass-card p-3.5 sm:p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative"
                   >
                     {/* Item parameters info */}
-                    <div className="flex flex-col gap-1 text-left">
+                    <div className="flex flex-col gap-1 text-left flex-grow">
                       <span className="font-mono text-[10px] text-off-white bg-graphite-black px-2 py-0.5 rounded w-fit font-bold">
                         {item.product.itemCode} // SIZE_{item.selectedSize}
                       </span>
@@ -149,30 +150,32 @@ export default function CartDrawer({
                       </span>
                     </div>
 
-                    {/* Operational controls */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1.5 glass-inset rounded-lg p-1">
+                    {/* Operational controls with at least 44px touch targets */}
+                    <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-concrete/30">
+                      <div className="flex items-center gap-1 glass-inset rounded-xl p-1">
                         <button
                           onClick={() => onUpdateQty(item.product.itemCode, item.selectedSize, false)}
-                          className="w-7 h-7 rounded flex items-center justify-center hover:bg-concrete/30 hover:text-warning-red cursor-pointer transition-colors"
+                          aria-label="Disminuir cantidad"
+                          className="min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center hover:bg-concrete/30 active:bg-warning-red active:text-white cursor-pointer transition-colors text-steel-gray"
                         >
-                          <Minus className="w-3.5 h-3.5" />
+                          <Minus className="w-4 h-4" />
                         </button>
-                        <span className="w-6 text-center text-xs font-mono font-bold text-graphite-black">
+                        <span className="w-7 text-center text-sm font-mono font-black text-graphite-black">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => onUpdateQty(item.product.itemCode, item.selectedSize, true)}
-                          className="w-7 h-7 rounded flex items-center justify-center hover:bg-concrete/30 hover:text-signal-yellow cursor-pointer transition-colors"
+                          aria-label="Aumentar cantidad"
+                          className="min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center hover:bg-concrete/30 active:bg-signal-yellow active:text-graphite-black cursor-pointer transition-colors text-steel-gray"
                         >
-                          <Plus className="w-3.5 h-3.5" />
+                          <Plus className="w-4 h-4" />
                         </button>
                       </div>
 
                       <button
                         onClick={() => onRemove(item.product.itemCode, item.selectedSize)}
-                        className="w-8 h-8 rounded-full glass-interactive text-steel-gray hover:text-warning-red flex items-center justify-center cursor-pointer"
-                        title="Remove Object"
+                        className="min-w-[44px] min-h-[44px] rounded-xl glass-interactive text-steel-gray hover:text-warning-red active:bg-warning-red active:text-white flex items-center justify-center cursor-pointer transition-colors"
+                        aria-label={`Eliminar ${item.product.title} del carrito`}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -184,26 +187,26 @@ export default function CartDrawer({
 
             {/* CODES & SUMMATION INVOICE */}
             {cart.length > 0 && (
-              <div className="mt-auto border-t border-concrete/40 pt-6 flex flex-col gap-5 text-left">
+              <div className="mt-auto border-t border-concrete/40 pt-5 flex flex-col gap-4 text-left">
                 {/* PROMO ENTRY */}
                 <div className="flex flex-col gap-2">
                   <span className="text-xs font-mono text-steel-gray uppercase font-semibold">
                     SYS_PROMO_VERIFICATION_LEDGER
                   </span>
                   <div className="flex gap-2">
-                    <div className="flex-grow glass-inset rounded-xl px-3.5 py-2.5 flex items-center gap-2.5">
-                      <Tag className="w-4 h-4 text-steel-gray" />
+                    <div className="flex-grow glass-inset rounded-xl px-3.5 py-2.5 flex items-center gap-2.5 min-h-[46px]">
+                      <Tag className="w-4 h-4 text-steel-gray shrink-0" />
                       <input
                         type="text"
                         value={promoCode}
                         onChange={e => setPromoCode(e.target.value)}
-                        placeholder="ENTER CODE (e.g. SZN_777, ARCHIVE_FREE)"
+                        placeholder="CODE (e.g. SZN_777)"
                         className="bg-transparent border-none outline-none w-full text-xs font-mono text-graphite-black placeholder:text-steel-gray/60 uppercase font-semibold"
                       />
                     </div>
                     <button
                       onClick={handleApplyPromo}
-                      className="glass-interactive px-5 rounded-xl text-xs font-mono font-bold tracking-wider cursor-pointer hover:bg-graphite-black hover:text-off-white"
+                      className="glass-interactive px-4 sm:px-5 min-h-[46px] rounded-xl text-xs font-mono font-bold tracking-wider cursor-pointer hover:bg-graphite-black hover:text-off-white active:scale-95 transition-all"
                     >
                       APPLY (✓)
                     </button>
@@ -240,12 +243,12 @@ export default function CartDrawer({
                   </div>
                 </div>
 
-                {/* ACTIONS */}
+                {/* CHECKOUT ACTION BUTTON */}
                 <button
                   onClick={handleCheckoutSim}
-                  className="w-full py-4 rounded-xl font-mono text-xs sm:text-sm font-black tracking-widest bg-graphite-black text-off-white hover:bg-warning-red hover:shadow-[0_4px_24px_rgba(193,18,31,0.3)] uppercase transition-all duration-300 cursor-pointer shadow-xl"
+                  className="w-full min-h-[54px] py-4 px-4 rounded-xl font-mono text-xs sm:text-sm font-black tracking-widest bg-graphite-black text-off-white hover:bg-warning-red hover:shadow-[0_4px_24px_rgba(193,18,31,0.3)] active:scale-98 uppercase transition-all duration-200 cursor-pointer shadow-xl flex items-center justify-center gap-2"
                 >
-                  STITCH_COMPILE_CHECKOUT (→)
+                  <span>STITCH_COMPILE_CHECKOUT (→)</span>
                 </button>
               </div>
             )}
@@ -388,7 +391,7 @@ export default function CartDrawer({
 
             <button
               onClick={resetAll}
-              className="w-full py-4 rounded-xl font-mono text-xs sm:text-sm font-black tracking-widest bg-[#FAF9F6] text-black hover:bg-warning-red hover:text-white uppercase transition-all duration-300 cursor-pointer text-center shadow-xl"
+              className="w-full min-h-[52px] py-4 px-4 rounded-xl font-mono text-xs sm:text-sm font-black tracking-widest bg-[#FAF9F6] text-black hover:bg-warning-red hover:text-white active:scale-98 uppercase transition-all duration-200 cursor-pointer text-center shadow-xl select-none"
             >
               CLOSE ARCHIVE_FILE & CLEAR LEDGER
             </button>

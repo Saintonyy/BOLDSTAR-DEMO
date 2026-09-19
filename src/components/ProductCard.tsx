@@ -203,7 +203,14 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
       </div>
 
       {/* 2. CENTER BLUEPRINT GRAPHIC CONTAINER */}
-      <div className="w-full aspect-[4/5] rounded-xl overflow-hidden border border-concrete/30 transition-all bg-[#080B0D] relative mb-4 shadow-inner">
+      <div 
+        onClick={() => onViewDetails(product)}
+        className="w-full aspect-[4/5] rounded-xl overflow-hidden border border-concrete/30 transition-all bg-[#080B0D] relative mb-4 shadow-inner cursor-pointer"
+        role="button"
+        tabIndex={0}
+        aria-label={`Ver archivo técnico de ${product.title}`}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onViewDetails(product); }}
+      >
         {renderProductBlueprint()}
       </div>
 
@@ -231,10 +238,10 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
           </span>
         </div>
 
-        {/* HOVER SPEC TRIGGER BUTTON */}
+        {/* HOVER / TOUCH SPEC TRIGGER BUTTON */}
         <button
           onClick={() => onViewDetails(product)}
-          className="w-full glass-interactive py-3.5 rounded-xl flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-wider cursor-pointer group-hover:bg-graphite-black group-hover:text-off-white group-hover:shadow-[0_8px_20px_rgba(10,10,10,0.25)] transition-all duration-300"
+          className="w-full min-h-[46px] glass-interactive py-3 px-4 rounded-xl flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-wider cursor-pointer group-hover:bg-graphite-black group-hover:text-off-white active:scale-98 active:bg-graphite-black active:text-off-white group-hover:shadow-[0_8px_20px_rgba(10,10,10,0.25)] transition-all duration-200"
         >
           <Eye className="w-4 h-4 text-signal-yellow transition-colors" />
           ANALYZE SPEC_FILE (→)

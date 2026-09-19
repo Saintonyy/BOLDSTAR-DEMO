@@ -213,13 +213,14 @@ export default function CustomSubmit({ onAddSubmission, submissions }: CustomSub
                         type="button"
                         onClick={() => setColorPreset(col)}
                         style={{ backgroundColor: col }}
-                        className={`w-9 h-9 rounded-xl cursor-pointer border relative transition-all ${
-                          colorPreset === col ? 'border-warning-red ring-2 ring-warning-red/30 scale-105 shadow-md' : 'border-concrete/50'
+                        className={`min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl cursor-pointer border relative transition-all active:scale-95 ${
+                          colorPreset === col ? 'border-warning-red ring-2 ring-warning-red/40 scale-105 shadow-md' : 'border-concrete/50 hover:scale-102'
                         }`}
                         title={col}
+                        aria-label={`Seleccionar color ${col}`}
                       >
                         {colorPreset === col && (
-                          <span className="absolute inset-0 flex items-center justify-center text-xs text-white font-bold">✓</span>
+                          <span className="absolute inset-0 flex items-center justify-center text-xs text-white font-bold drop-shadow">✓</span>
                         )}
                       </button>
                     ))}
@@ -298,9 +299,9 @@ export default function CustomSubmit({ onAddSubmission, submissions }: CustomSub
               {/* Form Action */}
               <button
                 type="submit"
-                className="w-full py-4 rounded-xl font-mono text-xs sm:text-sm font-black tracking-widest bg-graphite-black text-off-white hover:bg-warning-red hover:shadow-[0_4px_24px_rgba(193,18,31,0.3)] transition-all duration-300 cursor-pointer uppercase mt-2 shadow-xl"
+                className="w-full min-h-[54px] py-4 px-4 rounded-xl font-mono text-xs sm:text-sm font-black tracking-widest bg-graphite-black text-off-white hover:bg-warning-red hover:shadow-[0_4px_24px_rgba(193,18,31,0.3)] active:scale-98 transition-all duration-200 cursor-pointer uppercase mt-2 shadow-xl flex items-center justify-center gap-2 select-none"
               >
-                COMPILE & SUBMIT BLUEPRINT STITCH (→)
+                <span>COMPILE & SUBMIT BLUEPRINT STITCH (→)</span>
               </button>
 
             </form>
@@ -351,7 +352,7 @@ export default function CustomSubmit({ onAddSubmission, submissions }: CustomSub
 
               <button
                 onClick={handleResetSubmit}
-                className="glass-interactive px-6 py-3 rounded-xl text-xs font-bold tracking-wider hover:bg-graphite-black hover:text-off-white transition-all cursor-pointer mt-2"
+                className="glass-interactive min-h-[48px] px-6 py-3 rounded-xl text-xs font-bold tracking-wider hover:bg-graphite-black hover:text-off-white active:scale-95 transition-all cursor-pointer mt-2 flex items-center justify-center"
               >
                 PUSH ANOTHER BLUEPRINT FILE (↺)
               </button>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
-import { X, Compass, Scissors, AlertCircle } from 'lucide-react';
+import { X, Compass, Scissors, AlertCircle, ShoppingBag } from 'lucide-react';
 
 interface ProductDetailDrawerProps {
   product: Product;
@@ -36,8 +36,8 @@ export default function ProductDetailDrawer({
       <div className="w-full max-w-2xl h-screen glass-panel pl-0 border-y-0 rounded-none overflow-y-auto flex flex-col relative shadow-2xl">
         
         {/* CLOSING / HUD HEADER TOP ROW (Smoked Glass Bar) */}
-        <div className="w-full glass-dark h-16 flex items-center justify-between px-6 sm:px-8 sticky top-0 z-20 border-b border-white/10">
-          <div className="flex items-center gap-3">
+        <div className="w-full glass-dark min-h-16 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-20 border-b border-white/10">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <span className="text-xs font-mono font-bold px-3 py-1.5 glass-dark-inset rounded text-off-white border border-white/10">
               SYS-DOC // {product.itemCode}
             </span>
@@ -47,14 +47,15 @@ export default function ProductDetailDrawer({
 
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full glass-interactive text-off-white flex items-center justify-center cursor-pointer transition-all hover:text-warning-red hover:bg-white/10"
+            aria-label="Cerrar detalles del producto"
+            className="min-w-[44px] min-h-[44px] rounded-full glass-interactive text-off-white flex items-center justify-center cursor-pointer transition-all hover:text-warning-red hover:bg-white/10 active:scale-95"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* CONTENT ENVELOPE */}
-        <div className="p-6 sm:p-8 flex-grow flex flex-col gap-6 text-left">
+        <div className="p-4 sm:p-8 pb-12 sm:pb-8 flex-grow flex flex-col gap-6 text-left">
 
           {/* 1. HERO TITLE BLOCK */}
           <div className="flex flex-col border-b border-concrete/40 pb-6">
@@ -175,16 +176,16 @@ export default function ProductDetailDrawer({
               </span>
             </div>
 
-            <div className="flex gap-2.5">
+            <div className="grid grid-cols-4 gap-2">
               {(['S', 'M', 'L', 'XL'] as const).map(size => {
                 const isSelected = selectedSize === size;
                 return (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`flex-1 py-3 px-3 rounded-xl font-mono text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                    className={`min-h-[48px] py-2.5 px-2 rounded-xl font-mono text-xs sm:text-sm font-bold transition-all cursor-pointer select-none active:scale-95 flex items-center justify-center ${
                       isSelected
-                        ? 'bg-graphite-black text-off-white shadow-lg border border-graphite-black'
+                        ? 'bg-graphite-black text-off-white shadow-lg border border-graphite-black ring-2 ring-signal-yellow/50'
                         : 'glass-interactive text-steel-gray hover:text-graphite-black'
                     }`}
                   >
@@ -260,12 +261,13 @@ export default function ProductDetailDrawer({
             <button
               onClick={handleAdd}
               disabled={product.stock === 0}
-              className={`w-full py-4 rounded-xl font-mono text-xs sm:text-sm font-black tracking-widest uppercase transition-all duration-300 cursor-pointer flex items-center justify-center gap-3 ${
+              className={`w-full min-h-[54px] py-4 px-4 rounded-xl font-mono text-xs sm:text-sm font-black tracking-widest uppercase transition-all duration-200 cursor-pointer flex items-center justify-center gap-3 select-none active:scale-98 ${
                 product.stock === 0
                   ? 'bg-concrete text-steel-gray cursor-not-allowed shadow-none'
-                  : 'bg-graphite-black text-off-white hover:bg-warning-red hover:shadow-[0_4px_24px_rgba(193,18,31,0.35)] shadow-xl'
+                  : 'bg-graphite-black text-off-white hover:bg-warning-red hover:shadow-[0_4px_24px_rgba(193,18,31,0.35)] active:bg-warning-red shadow-xl'
               }`}
             >
+              <ShoppingBag className="w-4 h-4 text-signal-yellow" />
               STITCH IN TO ARCHIVE BAG [SZN_STITCH]
             </button>
             

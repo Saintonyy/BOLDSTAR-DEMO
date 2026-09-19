@@ -32,9 +32,11 @@ export interface CartItem {
   selectedSize: 'S' | 'M' | 'L' | 'XL';
 }
 
+export type TabType = 'collections' | 'archive' | 'system' | 'custom-submit';
+
 export interface SystemState {
   isCartOpen: boolean;
-  activeTab: 'collections' | 'archive' | 'system' | 'custom-submit';
+  activeTab: TabType;
   searchQuery: string;
   categoryFilter: string;
   priceRange: number;
